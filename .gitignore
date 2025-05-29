@@ -1,0 +1,44 @@
+# Dart & Flutter
+.dart_tool/
+.packages
+build/
+pubspec.lock
+
+# IDE & Editors
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.project
+.classpath
+.c9/
+*.launch
+*.sublime-workspace
+
+# Test & Coverage
+coverage/
+.test_coverage.dart
+*.lcov
+.coverage/
+
+# Platform-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+*~
+
+# Dart package specific
+doc/api/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
