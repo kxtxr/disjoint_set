@@ -563,24 +563,24 @@ void main() {
       // NOTE: This test demonstrates why using mergeIf() for distance-based
       // clustering can lead to unexpected results due to transitive connections.
       // In real applications, consider graph algorithms for such use cases.
-      
+
       final ds = DisjointSet<Point>();
-      
+
       // Create a small 3x3 grid of points for clarity
-      final grid = List.generate(3, (x) => 
-        List.generate(3, (y) => Point(x, y)));
-      
+      final grid =
+          List.generate(3, (x) => List.generate(3, (y) => Point(x, y)));
+
       // Add all points to the disjoint set
       for (final row in grid) {
         for (final point in row) {
           ds.makeSet(point);
         }
       }
-      
+
       // Initially, all points are in their own sets
       expect(ds.size, 9);
       expect(ds.setCount, 9);
-      
+
       // Create a grid path with clear connectivity:
       //
       // (0,0)-(1,0)-(2,0)
@@ -588,52 +588,53 @@ void main() {
       // (0,1)-(1,1)-(2,1)
       //        |
       // (0,2)-(1,2)-(2,2)
-      
+
       // First, create all horizontal connections (rows)
       ds.union(grid[0][0], grid[1][0]); // (0,0) - (1,0)
       ds.union(grid[1][0], grid[2][0]); // (1,0) - (2,0)
-      
+
       ds.union(grid[0][1], grid[1][1]); // (0,1) - (1,1)
       ds.union(grid[1][1], grid[2][1]); // (1,1) - (2,1)
-      
+
       ds.union(grid[0][2], grid[1][2]); // (0,2) - (1,2)
       ds.union(grid[1][2], grid[2][2]); // (1,2) - (2,2)
-      
+
       // Then create vertical connections (columns)
       ds.union(grid[1][0], grid[1][1]); // (1,0) - (1,1)
       ds.union(grid[1][1], grid[1][2]); // (1,1) - (1,2)
-      
+
       // Verify horizontal connectivity (rows)
-      expect(ds.connected(grid[0][0], grid[2][0]), isTrue, 
+      expect(ds.connected(grid[0][0], grid[2][0]), isTrue,
           reason: "(0,0) should connect to (2,0) along the top row");
       expect(ds.connected(grid[0][1], grid[2][1]), isTrue,
           reason: "(0,1) should connect to (2,1) along the middle row");
       expect(ds.connected(grid[0][2], grid[2][2]), isTrue,
           reason: "(0,2) should connect to (2,2) along the bottom row");
-      
+
       // Verify vertical connectivity through the middle column
       expect(ds.connected(grid[1][0], grid[1][2]), isTrue,
           reason: "(1,0) should connect to (1,2) through the middle column");
-      
+
       // Verify full grid connectivity
       expect(ds.connected(grid[0][0], grid[2][2]), isTrue,
           reason: "(0,0) should connect to (2,2) through the grid path");
       expect(ds.connected(grid[2][0], grid[0][2]), isTrue,
           reason: "(2,0) should connect to (0,2) through the grid path");
-      
+
       // All points should be connected in a single set since we created a connected grid
-      expect(ds.setCount, 1, reason: "All points should be in one connected set");
+      expect(ds.setCount, 1,
+          reason: "All points should be in one connected set");
       expect(ds.size, 9, reason: "There should be 9 points in the grid");
-      
+
       // Test distance-based checks using the isCloseTo helper
       // For adjacent points (distance = 1.0)
       expect(grid[0][0].isCloseTo(grid[1][0], 1.5), isTrue,
           reason: "Adjacent points should be within distance 1.5");
-      
+
       // For diagonal points (distance = sqrt(2) ≈ 1.414)
       expect(grid[0][0].isCloseTo(grid[1][1], 1.5), isTrue,
           reason: "Diagonal points should be within distance 1.5");
-      
+
       // For distant points (distance = sqrt(8) ≈ 2.828 > 2.5)
       expect(grid[0][0].isCloseTo(grid[2][2], 2.5), isFalse,
           reason: "Distant points should NOT be within distance 2.5");

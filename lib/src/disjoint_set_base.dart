@@ -352,9 +352,9 @@ class DisjointSet<T> {
   /// The [predicate] function should return `true` for pairs of elements
   /// that should be merged. This is useful for custom equivalence relations.
   ///
-/// **Important note:** This method creates transitive relationships. For example, if
-/// the predicate returns true for (a,b) and (b,c), then a and c will be
-/// in the same set even if the predicate returns false for (a,c).
+  /// **Important note:** This method creates transitive relationships. For example, if
+  /// the predicate returns true for (a,b) and (b,c), then a and c will be
+  /// in the same set even if the predicate returns false for (a,c).
   ///
   /// For distance-based predicates or other non-transitive relationships,
   /// you may need to use a different approach, such as building a graph and

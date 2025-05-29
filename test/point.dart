@@ -13,7 +13,7 @@ class Point {
     final dy = y - other.y;
     return sqrt(dx * dx + dy * dy);
   }
-  
+
   /// Helper method to check if two points are within a certain distance threshold
   bool isCloseTo(Point other, double threshold) {
     return distanceTo(other) <= threshold;
@@ -30,7 +30,7 @@ class Point {
   String toString() => '($x,$y)';
 
   Map<String, dynamic> toJson() => {'x': x, 'y': y};
-  
+
   static Point fromJson(dynamic json) =>
       Point(json['x'] as int, json['y'] as int);
 }
